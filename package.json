@@ -20,6 +20,7 @@
   "author": "David Zukowski <david@zuko.me> (http://zuko.me)",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.16.2",
     "bootstrap": "^4.0.0-alpha",
     "compression": "^1.6.2",
     "dotenv": "^4.0.0",
