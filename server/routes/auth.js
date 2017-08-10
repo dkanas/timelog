@@ -39,10 +39,10 @@ module.exports = [
       })
       .then(({ data }) => data.access_token)
       .then(token => {
-        github.authenticate({ type: 'oauth', token})
+        github.authenticate({ type: 'oauth', token })
         return github.repos.getAll({})
       })
-      .then(({ data }) => res.send(generateRepoListHTML(data))
+      .then(({ data }) => res.send(generateRepoListHTML(data)))
       .catch(e => res.status('500').send(e.message))
     }
   }
