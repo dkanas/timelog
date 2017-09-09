@@ -25,7 +25,7 @@ const authMiddleware = (req, res, next) => {
 const userRouter = express.Router()
 userRouter.get('/oauth', passport.authenticate('github'))
 userRouter.get('/oauth/callback', passport.authenticate('github'), userController.oauthCallback)
-userRouter.get('/logout', userController.logout)
+userRouter.get('/logout', authMiddleware, userController.logout)
 mainRouter.use('/user', userRouter)
 
 module.exports = mainRouter
