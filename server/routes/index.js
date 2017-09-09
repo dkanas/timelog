@@ -1,10 +1,31 @@
-const router = require('express').Router()
-const authRoutes = require('./auth')
+const express = require('express')
+const session = require('express-session')
+const MongoStore = require('connect-mongo')(session)
+const mainRouter = express.Router()
+const passport = require('../utils/passport')
+const mongoose = require('../db/index')
+const userController = require('../controllers/userController')
+const { logger } = require('../utils')
 
-const routes = [
-  ...authRoutes
-]
+mainRouter.use(session({
+  secret: process.env.SESSION_SECRET,
+  store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  resave: false,
+  saveUninitialized: false
+}))
+mainRouter.use(passport.initialize())
+mainRouter.use(passport.session())
 
-authRoutes.forEach(({ method, url, handler }) => router[method](url, handler))
+const authMiddleware = (req, res, next) => {
+  if (!req.isAuthenticated()) return res.status(401).send()
+  else next()
+}
 
-module.exports = router
+// user
+const userRouter = express.Router()
+userRouter.get('/oauth', passport.authenticate('github'))
+userRouter.get('/oauth/callback', passport.authenticate('github'), userController.oauthCallback)
+userRouter.get('/logout', userController.logout)
+mainRouter.use('/user', userRouter)
+
+module.exports = mainRouter
