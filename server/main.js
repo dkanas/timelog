@@ -1,16 +1,19 @@
 require('dotenv').config()
+
 const express = require('express')
 const path = require('path')
 const webpack = require('webpack')
+const compress = require('compression')
+
 const logger = require('../build/lib/logger')
 const webpackConfig = require('../build/webpack.config')
 const project = require('../project.config')
-const compress = require('compression')
+
 const router = require('./routes')
 
 const app = express()
 app.use(compress())
-app.use(router)
+app.use('/api', router)
 
 // ------------------------------------
 // Apply Webpack HMR Middleware
