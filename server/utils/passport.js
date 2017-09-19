@@ -3,6 +3,7 @@ const GithubStrategy = require('passport-github').Strategy
 const { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } = process.env
 const models = require('../db/models')
 const { logger } = require('../utils')
+const get = require('lodash/get')
 
 passport.use(new GithubStrategy({
     clientID: GITHUB_CLIENT_ID,
@@ -12,8 +13,12 @@ passport.use(new GithubStrategy({
   async (accessToken, refreshToken, profile, cb) => {
     try {
       const user = await models.User.findOne({ githubId: profile.id })
+      const avatar = get(profile, ['photos', 0, 'value'])
+
       if (user) {
         user.githubToken = accessToken
+        if (avatar) user.avatar = avatar
+        user.githubLogin = profile.username
         await user.save()
         cb(null, user)
       }
@@ -21,6 +26,8 @@ passport.use(new GithubStrategy({
         models.User.create({
           githubId: profile.id,
           githubToken: accessToken,
+          avatar,
+          githubLogin: profile.username,
           firstName: '',
           lastName: '',
           role: 'employee'
