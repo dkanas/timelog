@@ -26,6 +26,8 @@ const userRouter = express.Router()
 userRouter.get('/oauth', passport.authenticate('github'))
 userRouter.get('/oauth/callback', passport.authenticate('github'), userController.oauthCallback)
 userRouter.get('/logout', authMiddleware, userController.logout)
+userRouter.get('/checkAuth', userController.checkAuth)
+userRouter.get('/details', authMiddleware, userController.getUserDetails)
 mainRouter.use('/user', userRouter)
 
 module.exports = mainRouter
