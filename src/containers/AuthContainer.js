@@ -1,19 +1,32 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 
-import { checkAuth } from 'store/sessionModule'
+import Spinner from 'components/Spinner'
+import { getUserDetails } from 'store/sessionModule'
+
+const checkIfProtected = currentPath => ![
+  '/'
+].find(routePath => routePath === currentPath)
 
 @connect(
-  state => ({ isAuthenticated: state.session.isAuthenticated }),
-  { checkAuth }
+  ({ session, location }) => ({ session, location, routeIsProtected: checkIfProtected(location.pathname) }),
+  { getUserDetails }
 )
+@withRouter
 class AuthContainer extends Component {
   componentDidMount () {
-    this.props.checkAuth()
+    this.props.getUserDetails()
+  }
+  componentWillReceiveProps ({ session, location, router, routeIsProtected }) {
+    console.log('here', session, location, router, routeIsProtected)
+    if (!session.loading && !session.isAuthenticated && routeIsProtected) router.push('/')
   }
   render () {
-    const { children, isAuthenticated, className } = this.props
-    return isAuthenticated
+    const { children, session, location, className, routeIsProtected } = this.props
+    if (session.loading) return <Spinner />
+    return session.isAuthenticated || !routeIsProtected
       ? (
         <div className={className}>
           {children}

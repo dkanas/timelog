@@ -4,6 +4,7 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+    position: relative;
   }
 
   &__img {
@@ -14,9 +15,43 @@
   &__triangle {
     font-size: 10px;
     transform: translate(-5px, 15px);
-    transition: translate .5s, transform .5s;
+    transition: translate .2s, transform .2s;
     &.open {
       transform: translate(-23px, 23px) rotate(45deg);
+    }
+  }
+
+  &__dropdown {
+    &__container {
+      position: absolute;
+      top: 72px;
+      right: -40px;
+      width: 200px;
+      background-color: #fff;
+      color: #000;
+      box-shadow: 0 2px 10px #ccc;
+      opacity: 0;
+      transition: opacity .2s;
+      transition-delay: .3s;
+      visibility: hidden;
+      &.open {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+    &__item {
+      padding: 10px 20px;
+
+      &:first-child {
+        background-color: #66e0ff;
+        color: #fff;
+        text-align: center;
+        box-shadow: 0 2px 10px #ccc;
+        cursor: default;
+      }
+      &:not(:first-child):hover {
+        background-color: #eee;
+      }
     }
   }
 }
