@@ -1,11 +1,11 @@
 import React from 'react'
 
 import LoginButton from './LoginButton'
-import UserDropdown from './UserDropdown'
+import AvatarMenu from './AvatarMenu'
 import './Header.scss'
 
 const AuthAwareComponent = props => props.isAuthenticated
-  ? <UserDropdown {...props} />
+  ? <AvatarMenu {...props} />
   : <LoginButton />
 
 const Header = props => (
