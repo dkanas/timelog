@@ -1,20 +1,22 @@
-import React from 'react'
-import { IndexLink, Link } from 'react-router'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
+import AuthContainer from 'containers/AuthContainer'
 import Header from '../Header'
 import './PageLayout.scss'
 
-export const PageLayout = ({ children }) => (
+const PageLayout = ({ children }) => (
   <div className='page-layout__container'>
     <Header />
-    <div className='page-layout__viewport'>
+    <AuthContainer className='page-layout__viewport'>
       {children}
-    </div>
+    </AuthContainer>
   </div>
 )
+
 PageLayout.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node
 }
 
 export default PageLayout
