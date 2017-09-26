@@ -1,44 +1,46 @@
-import { api, to } from 'utils'
+import { api, to, logError } from 'utils'
+import { browserHistory } from 'react-router'
 
 // constants
-const GET_USER_DETAILS_REQUEST = 'GET_USER_DETAILS_REQUEST'
 const GET_USER_DETAILS_SUCCESS = 'GET_USER_DETAILS_SUCCESS'
-const GET_USER_DETAILS_FAILURE = 'GET_USER_DETAILS_FAILURE'
 
+const LOGIN = 'LOGIN'
 const LOGOUT = 'LOGOUT'
 
 // action creators
-const getUserDetailsRequest = () => ({ type: GET_USER_DETAILS_REQUEST })
 const getUserDetailsSuccess = user => ({ type: GET_USER_DETAILS_SUCCESS, user })
-const getUserDetailsFailure = () => ({ type: GET_USER_DETAILS_FAILURE })
 
+const login = () => ({ type: LOGIN })
 export const logout = () => ({ type: LOGOUT })
 
 // thunks
 export const getUserDetails = () => async dispatch => {
-  dispatch(getUserDetailsRequest())
   const [err, user] = await api.getCurrentUserDetails()
-  if (err) {
-    dispatch(getUserDetailsFailure())
-    throw err
-  }
+  if (err) throw err
 
   dispatch(getUserDetailsSuccess(user))
   return user
 }
 
+export const checkAuth = () => async dispatch => {
+  const [err] = await to(dispatch(getUserDetails()))
+  if (err) {
+    browserHistory.push('/')
+    if (err.response.status !== 401) logError(err)
+  } else dispatch(login())
+}
+
 // action handlers
 const handlers = {
-  [GET_USER_DETAILS_REQUEST]: state => ({ ...state, loading: true }),
-  [GET_USER_DETAILS_SUCCESS]: (state, { user }) => ({ ...state, user, loading: false, isAuthenticated: true }),
-  [GET_USER_DETAILS_FAILURE]: state => ({ ...state, loading: false }),
+  [GET_USER_DETAILS_SUCCESS]: (state, { user }) => ({ ...state, user }),
 
+  [LOGIN]: state => ({ ...state, isAuthenticated: true, loading: false }),
   [LOGOUT]: () => initialState
 }
 
 const initialState = {
   user: null,
-  loading: false,
+  loading: true,
   isAuthenticated: false,
 }
 
