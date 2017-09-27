@@ -5,12 +5,8 @@ import { connect } from 'react-redux'
 import Spinner from 'components/Spinner'
 import { checkAuth } from 'store/sessionModule'
 
-export const checkIfProtectedRoute = currentPath => ![
-  '/'
-].find(routePath => routePath === currentPath)
-
 @connect(
-  ({ session, location }) => ({ session, location, routeIsProtected: checkIfProtectedRoute(location.pathname) }),
+  ({ session, location }) => ({ session, location }),
   { checkAuth }
 )
 class AuthContainer extends Component {
@@ -18,10 +14,10 @@ class AuthContainer extends Component {
     this.props.checkAuth()
   }
   render () {
-    const { children, session, location, className, routeIsProtected } = this.props
-
-    if (session.loading) return <Spinner />
-    return session.isAuthenticated || !routeIsProtected
+    const { children, session, location, className } = this.props
+    console.log(session.authLoading)
+    if (session.authLoading) return <Spinner />
+    return session.isAuthenticated
       ? (
         <div className={className}>
           {children}
