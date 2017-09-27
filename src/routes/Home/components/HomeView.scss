@@ -1,5 +1,10 @@
-.duck {
-  display: block;
-  width: 120px;
-  margin: 1.5rem auto;
+.home {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__welcome-message { margin-bottom: 20px; }
 }
