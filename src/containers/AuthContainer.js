@@ -6,7 +6,7 @@ import Spinner from 'components/Spinner'
 import { checkAuth } from 'store/sessionModule'
 
 @connect(
-  ({ session, location }) => ({ session, location }),
+  ({ session, location }) => ({ session, isIndexRoute: location.pathname === '/' }),
   { checkAuth }
 )
 class AuthContainer extends Component {
@@ -14,10 +14,10 @@ class AuthContainer extends Component {
     this.props.checkAuth()
   }
   render () {
-    const { children, session, location, className } = this.props
+    const { children, session, className, isIndexRoute } = this.props
 
     if (session.authLoading) return <Spinner />
-    return session.isAuthenticated
+    return session.isAuthenticated || isIndexRoute
       ? (
         <div className={className}>
           {children}

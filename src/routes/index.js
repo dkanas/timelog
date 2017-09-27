@@ -2,6 +2,7 @@
 import CoreLayout from '../layouts/PageLayout/PageLayout'
 import Home from './Home'
 import SettingsRoute from './Settings'
+import DashboardRoute from './Dashboard'
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
@@ -11,7 +12,8 @@ export const createRoutes = (store) => ({
   component   : CoreLayout,
   indexRoute  : Home,
   childRoutes : [
-    SettingsRoute(store)
+    SettingsRoute(store),
+    DashboardRoute(store)
   ]
 })
 

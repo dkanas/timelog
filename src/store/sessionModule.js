@@ -44,6 +44,7 @@ export const checkAuth = () => async dispatch => {
     dispatch(authFailure())
   } else {
     dispatch(authSuccess())
+    browserHistory.push('/dashboard')
   }
 }
 

@@ -1,0 +1,29 @@
+.dashboard {
+  &__container {
+    display: flex;
+    height: 100%;
+  }
+
+  &__content {
+    padding: 50px;
+  }
+
+  &__menu {
+    box-shadow: 0 2px 10px #ccc;
+    list-style-type: none;
+    padding: 20px;
+    width: 200px;
+    height: 100%;
+    text-align: center;
+    cursor: pointer;
+    &__item {
+      padding-bottom: 10px;
+      padding-top: 10px;
+      &:not(:last-child) { border-bottom: 1px solid #eee; }
+
+      &.active {
+        font-weight: bold;
+      }
+    }
+  }
+}

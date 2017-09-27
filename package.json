@@ -22,6 +22,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "bootstrap": "^4.0.0-alpha",
+    "classnames": "^2.2.5",
     "compression": "^1.6.2",
     "connect-mongo": "^1.3.2",
     "dotenv": "^4.0.0",
