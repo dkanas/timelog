@@ -15,7 +15,7 @@ class AuthContainer extends Component {
   }
   render () {
     const { children, session, location, className } = this.props
-    console.log(session.authLoading)
+
     if (session.authLoading) return <Spinner />
     return session.isAuthenticated
       ? (
