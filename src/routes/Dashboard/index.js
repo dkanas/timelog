@@ -1,8 +1,9 @@
+import React from 'react'
 import DashboardContainer from './containers/DashboardContainer'
 import OverviewRoute from './components/Overview'
 
 export default store => ({
-  path: '/dashboard',
+  path: 'dashboard',
   component: DashboardContainer,
   indexRoute: OverviewRoute
 })

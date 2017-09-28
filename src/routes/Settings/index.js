@@ -1,5 +1,5 @@
 export default store => ({
-  path: '/settings',
+  path: 'settings',
   getComponent: (nextState, cb) => {
     require.ensure([], (require) => {
       const Settings = require('./components/Settings').default
