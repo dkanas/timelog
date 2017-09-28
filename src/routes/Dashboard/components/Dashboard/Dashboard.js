@@ -1,6 +1,7 @@
 import React from 'react'
 import cn from 'classnames'
 import get from 'lodash/get'
+import { Link } from 'react-router'
 
 import './Dashboard.scss'
 
@@ -9,14 +10,16 @@ const menuItems = [
   { label: 'Projects', path: 'projects' },
   { label: 'Entries', path: 'entries' }
 ]
-const MenuItem = ({ active, label }) => (
-  <li className={cn('dashboard__menu__item', { active })}>{label}</li>
+const MenuItem = ({ active, label, path }) => (
+  <li className={'dashboard__menu__item'}>
+    <Link className={cn('dashboard__menu__link', { active })} to={'/dashboard/' + path}>{label}</Link>
+  </li>
 )
 const Menu = ({ activePath }) => (
   <ul className='dashboard__menu'>
     {
-      menuItems.map(item => (
-        <MenuItem label={item.label} active={item.path === activePath} key={item.path} />
+      menuItems.map(({ label, path }) => (
+        <MenuItem label={label} active={path === activePath} path={path} key={path} />
       ))
     }
   </ul>

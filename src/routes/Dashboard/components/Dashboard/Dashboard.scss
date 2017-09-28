@@ -16,14 +16,19 @@
     height: 100%;
     text-align: center;
     cursor: pointer;
+
     &__item {
       padding-bottom: 10px;
       padding-top: 10px;
       &:not(:last-child) { border-bottom: 1px solid #eee; }
+    }
 
-      &.active {
-        font-weight: bold;
+    &__link {
+      &:link, &:visited, &:hover, &:active {
+        color: #000;
+        text-decoration: none;
       }
+      &.active { font-weight: bold; }
     }
   }
 }
